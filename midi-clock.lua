@@ -1,4 +1,5 @@
 -- midi clock examples
+-- works well with drum machine like tr-09
 --
 -- enc 2 = bpm
 -- enc 3 send clock on/off
