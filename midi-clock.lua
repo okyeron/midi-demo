@@ -8,7 +8,7 @@
 -- key 2 = start
 -- key 3 = stop
 
-m = midi.connect(1)
+m = midi.connect(2)
 local klk
 local ticks_per_step = 6
 local steps_per_beat = 4
@@ -43,8 +43,9 @@ end
 
 function init()
     klk = metro.init()  
-    klk.callback = tst
+    klk.count = -1
     klk.time = 60/(ticks_per_step * steps_per_beat * bpm)
+    klk.event = tst
     klk:start()
 
     redraw()
@@ -52,17 +53,17 @@ end
 
 function tst()
     if (sendclock) then
-        m.clock()
+      m:clock()
     end
 end
 
 function key(n, z)
     if n == 2 and z == 1 then -- start
-        m.start()
+        m:start()
         print ("start")
     end 
     if n == 3 and z == 1 then -- 
-        m.stop()
+        m:stop()
         print ("stop")
         -- song select test
         --sng = math.random(0,3)
