@@ -1,12 +1,10 @@
 -- midi test
+-- @okyeron
 --
 -- prints midi device info 
 -- and incoming midi messages 
 -- to maiden REPL
 
--- author: steven noreyko
---
---
 
 local mo = midi.connect(1) -- defaults to port 1 (which is set in SYSTEM > DEVICES)
 

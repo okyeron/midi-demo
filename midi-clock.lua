@@ -1,15 +1,12 @@
 -- midi clock examples
+-- @okyeron
+--
 -- works well with drum machine like tr-09
 --
 -- enc 2 = bpm
 -- enc 3 send clock on/off
 -- key 2 = start
 -- key 3 = stop
-
--- author: steven noreyko
---
---
-
 
 m = midi.connect(1)
 local klk
