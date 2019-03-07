@@ -6,22 +6,34 @@
 -- to maiden REPL
 
 
-local mo = midi.connect(1) -- defaults to port 1 (which is set in SYSTEM > DEVICES)
+local mo = midi.connect() -- defaults to port 1 (which is set in SYSTEM > DEVICES)
+local ignore_clock = true
 
 -- process incoming midi
 mo.event = function(data) 
   d = midi.to_msg(data)
-    tab.print(d)
-    if d.type == "cc" then
-        print ("cc: ".. d.cc .. " " .. d.val)
-        --print (d.val)
-     -- do stuff with d.cc (cc number) and d.val (incoming value)
-    end
-
-    if d.type == "note_on" then
+  --tab.print(d)
+     
+  if d.type == "cc" then
+      print ("cc: ".. d.cc .. " : " .. d.val)
+      -- do stuff with d.cc (cc number) and d.val (incoming value)
+ 
+    elseif d.type == "note_on" then
+      print ("note-on: ".. d.note .. ", velocity:" .. d.vel)
      -- do stuff with d.note-on (note, vel, ch)
-      print ("note-on: ".. d.note .. " " .. d.vel)
-    end
+ 
+    elseif d.type == "note_off" then
+      print ("note-off: ".. d.note .. ", velocity:" .. d.vel)
+     -- do stuff with d.note-off (note, vel, ch)
+
+    -- other types
+    elseif d.type ~= "clock" and ignore_clock == true then
+      print (d.type)
+ 
+    elseif d.type == "clock" and ignore_clock == false then
+      print ("clock received")
+  end
+
 end
 
 function tablelength(T)
@@ -63,23 +75,23 @@ function init()
     showme()
 end
 
---print(midi.devices[3].name)
 
+-- some other examples
 
 -- helper send functions:
---o.note_on(80,100)
---o.note_off(80) -- optional off vel
+--mo:note_on(80,100)
+--mo:note_off(80) -- optional off vel
 
 -- raw bytes:
---o.send{144,80,100}
+--mo:send{144,80,100}
 
 -- or message table:
---o.send{type="note_on", note=72, vel=100}
---o.cc(72,100)
+--mo:send{type="note_on", note=72, vel=100}
+--mo:cc(72,100)
 
--- select different port
+-- add a different device
 --local second_midi = midi.connect(2)
---second_midi.cc(72,100)
+--second_midi:cc(72,100)
 
 --second_midi.event = function(data) 
 --  tab.print(midi.to_msg(data))
